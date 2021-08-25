@@ -5,12 +5,13 @@ let page = 1;
 
 function fetchImages(searchImages) {
   return fetch(`${BASE_URL}?image_type=photo&orientation=horizontal&q=${searchImages}&page=${page}&per_page=${perPage}&key=${KEY}`)
-  .then(response => {
+  .then(response => {   
     if(response.ok) {      
     return response.json();
     }     
-  }).then((response) => {  
+  }).then((response) => { 
     incrementPage();    
+    console.log(response.hits); 
     return response.hits;
   });    
 }
@@ -19,4 +20,8 @@ function incrementPage() {
   return page += 1;
 }
 
-export default fetchImages;
+const api = {
+  fetchImages
+}
+
+export default api;

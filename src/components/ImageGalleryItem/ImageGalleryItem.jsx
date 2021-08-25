@@ -1,9 +1,9 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({id, image, alt}) =>     
+export const ImageGalleryItem = ({ cards:{id, webformatURL, tags} }) =>     
       (<li className="ImageGalleryItem" key={id}>
-        <img src={image} alt={alt} className="ImageGalleryItem-image" />
+        <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" />
       </li>)
       
        

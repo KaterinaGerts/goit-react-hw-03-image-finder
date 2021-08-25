@@ -9,6 +9,7 @@ import {ImageGallery} from 'components/ImageGallery';
 export class App extends Component {
   state = {   
     cardName: '',
+    status: 'idle',
   }
 
   handleFormSubmit = cardName => {
@@ -16,11 +17,13 @@ export class App extends Component {
   };
 
   render() {
+    const {status} = this.props;
+
     return (
       <Container>
         <div>
-        <Searchbar onSubmit={this.handleFormSubmit}/>
-        <ImageGallery cardName={this.state.cardName}/>
+        <Searchbar onSubmit={this.handleFormSubmit} status={status}/>
+        <ImageGallery status={status} cardName={this.state.cardName}/>
         <ToastContainer autoClose={3000}/>
         </div>
       </Container>
