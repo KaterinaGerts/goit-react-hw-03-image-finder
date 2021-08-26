@@ -1,4 +1,7 @@
 .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: 1500px;  
   padding: 20px;  
   background-color: peachpuff;
