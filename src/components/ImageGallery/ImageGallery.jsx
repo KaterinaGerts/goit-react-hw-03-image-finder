@@ -26,7 +26,7 @@ export class  ImageGallery extends Component  {
 
    cardsApi
   .fetchImages(nextCards)
-  .then(card => this.setState({ card, status: Status.RESOLVED }))
+  .then(cards => this.setState({ cards, status: Status.RESOLVED }))
   .catch(error => this.setState({ error, status: Status.REJECTED }));
     
   }
