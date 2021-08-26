@@ -1,15 +1,14 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ cards:{id, webformatURL, tags} }) =>     
-      (<li className="ImageGalleryItem" key={id}>
-        <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" />
-      </li>)
-      
-       
-  
+export default function ImageGalleryItem({
+  cards: { webformatURL, tags },
+}) {
+  return (
+    <li className="ImageGalleryItem">
+      <img src={webformatURL} alt={tags} className="ImageGalleryItem-image" width="200"/>
+    </li>
+  );
+}
 
 // ImageGalleryItem.propTypes = {};
-
-
-

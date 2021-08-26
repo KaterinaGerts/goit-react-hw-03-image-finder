@@ -1,36 +1,84 @@
 import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Container} from 'components/Container';
-import {Searchbar} from 'components/Searchbar';
-import {ImageGallery} from 'components/ImageGallery';
+import Container from 'components/Container';
+import Searchbar from 'components/Searchbar';
+import ImageGallery from 'components/ImageGallery';
+import cardsApi from './services/card-api';
+import Loader from 'components/Loader';
 
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
 export class App extends Component {
-  state = {   
+  state = {
     cardName: '',
-    status: 'idle',
-  }
-
-  handleFormSubmit = cardName => {
-    this.setState({ cardName });
+    cards: [],
+    error: false,
+    status: Status.IDLE,
+    page: 1,
   };
 
+  handleFormSubmit = cardName => {
+    this.setState(cardName);
+    this.setState({cards:[]});
+    this.setState({page:1});
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const prevCard = prevState.cardName;
+    const nextCard = this.state.cardName;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
+
+    if (prevCard !== nextCard || prevPage !== nextPage) {
+      this.setState({ status: Status.PENDING });
+
+      cardsApi
+        .fetchImages(nextCard, nextPage)
+        .then(cards =>
+          this.setState(prevState => {
+            return {
+              cards: [...prevState.cards, ...cards],
+              status: Status.RESOLVED,
+            };
+          }),
+        )
+        .catch(error => this.setState({ error, status: Status.REJECTED }));
+    }
+  }
+
+  incrementPage = () => {
+    this.setState(prevState => {
+      return {
+        page: prevState.page + 1,
+      };
+    });
+  };
+
+  
   render() {
-    const {status} = this.props;
+    const { cards, error, status } = this.state;
 
     return (
       <Container>
         <div>
-        <Searchbar onSubmit={this.handleFormSubmit} status={status}/>
-        <ImageGallery status={status} cardName={this.state.cardName}/>
-        <ToastContainer autoClose={3000}/>
+          <Searchbar onSubmit={this.handleFormSubmit} />
+          {status === Status.IDLE && <div>Please, write a card name!</div>}
+          {status === Status.PENDING && <Loader/>}
+          {status === Status.REJECTED && <h1>{error.message}</h1>}
+          {status === Status.RESOLVED && (
+            <ImageGallery cards={cards} onClick={this.incrementPage} />
+          )}
+          <ToastContainer autoClose={3000} />
         </div>
       </Container>
-      
-    )
+    );
   }
 }
 
-export default App
-
+export default App;

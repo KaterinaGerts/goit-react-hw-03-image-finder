@@ -1,64 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react';
 // import PropTypes from 'prop-types'
-import {ImageGalleryItem} from 'components/ImageGalleryItem';
-import cardsApi from '../../services/card-api';
+import ImageGalleryItem from 'components/ImageGalleryItem';
+import Button from 'components/Button';
 
-const Status = {
-  IDLE: 'idle',
-  PENDING: 'pending',
-  RESOLVED: 'resolved',
-  REJECTED: 'rejected',
-};
 
-export class  ImageGallery extends Component  {
-  state = {
-    cards: [],   
-    error: false,
-    status: Status.IDLE,
- }
-
-  componentDidUpdate(prevProps, prevState) {
-  const prevCards = prevProps.cardName;
-  const nextCards = this.props.cardName;  
-
-  if(prevCards !== nextCards) {
-   this.setState({status: Status.PENDING});
-
-   cardsApi
-  .fetchImages(nextCards)
-  .then(cards => this.setState({ cards, status: Status.RESOLVED }))
-  .catch(error => this.setState({ error, status: Status.REJECTED }));
-    
-  }
-}
-
-render() {
-  const {cards, error, status} = this.state;    
-
-  if(status === 'idle') {
-    return <div>Please, write a card name!</div>;
-  }
+function ImageGallery({cards, onClick}) {
   
-  if(status === 'pending') {
-    return <div>Loading...</div>;
-  }
-
-  if(status === 'rejected') {
-    return <h1>{error.message}</h1>;
-  }
-
-  if(status === 'resolved') {
-    return (
-    <ul className="ImageGallery">
-        {cards.map(card => {
-         return <ImageGalleryItem cards={card}/>
-        })}        
-    </ul>);
-  }  
- 
-}
+      return (
+        <div>
+          <ul className="ImageGallery">
+            {cards.map(({id, webformatURL, tags}) => {
+              return <ImageGalleryItem key={id} cards={{id, webformatURL, tags}} />;
+            })}
+          </ul>
+          <Button onClick={onClick} />
+        </div>    
+  )
 }
 
-//ImageGallery.propTypes = {};
 
 
+export default ImageGallery;

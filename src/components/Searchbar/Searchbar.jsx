@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  toast } from 'react-toastify';
 
-export class Searchbar extends Component {
+class Searchbar extends Component {
   state = {
     cardName: '',
   }
@@ -54,3 +54,5 @@ export class Searchbar extends Component {
     );
   }
 }
+
+export default Searchbar;
