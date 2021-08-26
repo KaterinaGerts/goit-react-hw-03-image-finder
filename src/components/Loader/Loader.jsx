@@ -1,10 +1,11 @@
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import React from 'react';
+import Loader from 'react-loader-spinner';
+import s from './Loader.module.css';
 
-import React from 'react'
 
-export default function Loader() {
+export default function Spinner() {
   return (  
-    <>  
+    <div className={s.overlay}>
     <Loader
         type="MutatingDots"
         color="#00BFFF"
@@ -14,6 +15,6 @@ export default function Loader() {
         timeout={3000} //3 secs
       />
       <div>Loading...</div>
-      </>
+      </div>
   )
 }
