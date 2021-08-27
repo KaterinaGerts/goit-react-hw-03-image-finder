@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 
 class Searchbar extends Component {
   state = {
     cardName: '',
-  }
+  };
 
-  handleChange = e => {  
-    const value = e.currentTarget.value;  
+  handleChange = e => {
+    const value = e.currentTarget.value;
     this.setState({ cardName: value.toLowerCase() });
   };
 
-  handleSubmit =e => {
+  handleSubmit = e => {
     e.preventDefault();
 
-    const {cardName} = this.state
+    const { cardName } = this.state;
 
-    if(cardName.trim() === '') {
+    if (cardName.trim() === '') {
       toast.error("Oh no, you didn't write your request!");
       return;
     }
-    this.props.onSubmit({cardName});    
+    this.props.onSubmit({ cardName });
     this.reset();
   };
 
   reset = () => {
-    this.setState({cardName: ''});
+    this.setState({ cardName: '' });
   };
 
   render() {
@@ -45,7 +45,7 @@ class Searchbar extends Component {
               type="text"
               name="name"
               value={cardName}
-              onChange={this.handleChange} 
+              onChange={this.handleChange}
               autoComplete="off"
               autoFocus
               placeholder="Search images and photos"
@@ -57,8 +57,8 @@ class Searchbar extends Component {
   }
 }
 
-Searchbar.propTypes = { 
-  onSubmit: PropTypes.func.isRequired, 
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Searchbar;

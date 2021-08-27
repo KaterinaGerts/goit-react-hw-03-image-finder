@@ -47,14 +47,15 @@ export class App extends Component {
         .then(cards => {
           if (cards.length === 0) {
             this.setState({ status: Status.IDLE });
-            toast.info('Please, try again your request is not defind!')
+            toast.info('Please, try again your request is not defind!');
           } else {
-          this.setState(prevState => {
-            return {
-              cards: [...prevState.cards, ...cards],
-              status: Status.RESOLVED,
-            };
-          })}
+            this.setState(prevState => {
+              return {
+                cards: [...prevState.cards, ...cards],
+                status: Status.RESOLVED,
+              };
+            });
+          }
         })
         .catch(error => this.setState({ error, status: Status.REJECTED }))
         .finally(() => {
