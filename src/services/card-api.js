@@ -9,8 +9,7 @@ function fetchImages(searchImages, page) {
     if(response.ok) {      
     return response.json();
     }     
-  }).then((response) => {       
-    console.log(response.hits); 
+  }).then((response) => { 
     return response.hits;
   });    
 }

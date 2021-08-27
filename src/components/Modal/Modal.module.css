@@ -6,7 +6,11 @@
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
 
-  background-color: rgba(182, 151, 151, 0.434);
+  background-color: rgba(182, 151, 151, 0.593);
+}
+
+.modalImage {
+  border: 2px solid gray; 
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Container from 'components/Container';
 import Searchbar from 'components/Searchbar';
@@ -7,6 +7,7 @@ import ImageGallery from 'components/ImageGallery';
 import cardsApi from './services/card-api';
 import Spinner from 'components/Loader';
 import Modal from 'components/Modal';
+import s from './App.module.css';
 
 const Status = {
   IDLE: 'idle',
@@ -43,24 +44,25 @@ export class App extends Component {
 
       cardsApi
         .fetchImages(nextCard, nextPage)
-        .then(
-          cards =>
-            this.setState(prevState => {
-              return {
-                cards: [...prevState.cards, ...cards],
-                status: Status.RESOLVED,
-              };
-            }),
-          setTimeout(
-            () =>
-              window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth',
-              }),
-            2000,
-          ),
-        )
-        .catch(error => this.setState({ error, status: Status.REJECTED }));
+        .then(cards => {
+          if (cards.length === 0) {
+            this.setState({ status: Status.IDLE });
+            toast.info('Please, try again your request is not defind!')
+          } else {
+          this.setState(prevState => {
+            return {
+              cards: [...prevState.cards, ...cards],
+              status: Status.RESOLVED,
+            };
+          })}
+        })
+        .catch(error => this.setState({ error, status: Status.REJECTED }))
+        .finally(() => {
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
+        });
     }
   }
 
@@ -86,7 +88,9 @@ export class App extends Component {
       <Container>
         <div>
           <Searchbar onSubmit={this.handleFormSubmit} />
-          {status === Status.IDLE && <div>Please, write a card name!</div>}
+          {status === Status.IDLE && (
+            <div className={s.div}>Please, write a card name!</div>
+          )}
           {status === Status.PENDING && <Spinner />}
           {status === Status.REJECTED && <h1>{error.message}</h1>}
           {status === Status.RESOLVED && (

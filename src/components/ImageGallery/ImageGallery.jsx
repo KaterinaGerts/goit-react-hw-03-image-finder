@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import Button from 'components/Button';
 import s from './ImageGallery.module.css';
@@ -19,6 +19,18 @@ function ImageGallery({cards, onClick, onImageClick}) {
   )
 }
 
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      webformatURL: PropTypes.string,
+      largeImageURL: PropTypes.string,
+      tags: PropTypes.string,
+    }),
+  ),
+  onClick: PropTypes.func.isRequired,
+  onImageClick: PropTypes.func.isRequired,
+};
 
 
 export default ImageGallery;

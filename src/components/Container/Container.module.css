@@ -1,10 +1,6 @@
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.container {  
   max-width: 1500px;  
   padding: 20px;  
-  background-color: peachpuff;
-  text-align: center;
-  outline: 1px solid palevioletred;
+  background-color: silver;
+  text-align: center; 
 }
